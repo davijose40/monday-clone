@@ -1,31 +1,42 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const TicketPage = () => {
-    const [formdata, setFormdata] = useState({
+    const [formData, setFormData] = useState({
         status: "not started",
         progress: 0,
         timestamp: new Date().toISOString()
     })
     const editMode = false
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate()
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('submited')
+        
+        if (!editMode) {
+            const response = await axios.post('http://localhost:8000/tickets', {
+                formData
+            })
+            const success = response.status === 200
+            if (success) {
+                navigate('/')
+            }
+        }
     }
 
     const handleChange = (e) => {
         const value = e.target.value
         const name = e.target.name
 
-        setFormdata((prevState) => ({
+        setFormData((prevState) => ({
             ...prevState,
             [name]: value
         }))
     }
 
     const categories = ['test1', 'test2', 'test3', 'test4', 'test5']
-
-    console.log(formdata)
 
     return (
         <div className="ticket">
@@ -40,7 +51,7 @@ const TicketPage = () => {
                             name="title"
                             onChange={handleChange}
                             required
-                            value={formdata.title}
+                            value={formData.title}
                         />
 
                         <label htmlFor="discription">Description</label>
@@ -50,11 +61,11 @@ const TicketPage = () => {
                             name="discription"
                             onChange={handleChange}
                             required
-                            value={formdata.discription}
+                            value={formData.discription}
                         />
 
                         <label htmlFor="categories">Category</label>
-                        <select name="category" id="categories" value={formdata.category} onChange={handleChange}>
+                        <select name="category" id="categories" value={formData.category} onChange={handleChange}>
                             {categories?.map((category, _index) => (
                                 <option key={_index} value={category}>{category}</option>
                             ))}
@@ -67,7 +78,7 @@ const TicketPage = () => {
                             name="category"
                             onChange={handleChange}
                             required
-                            value={formdata.category}
+                            value={formData.category}
                         />
 
                         <label>Priority</label>
@@ -78,7 +89,7 @@ const TicketPage = () => {
                                 name='priority'
                                 onChange={handleChange}
                                 value={1}
-                                checked={formdata.priority === '1'}
+                                checked={formData.priority === '1'}
                             />
                             <label htmlFor="priority-1">1</label>
 
@@ -88,7 +99,7 @@ const TicketPage = () => {
                                 name='priority'
                                 onChange={handleChange}
                                 value={2}
-                                checked={formdata.priority === '2'}
+                                checked={formData.priority === '2'}
                             />
                             <label htmlFor="priority-2">2</label>
 
@@ -98,7 +109,7 @@ const TicketPage = () => {
                                 name='priority'
                                 onChange={handleChange}
                                 value={3}
-                                checked={formdata.priority === '3'}
+                                checked={formData.priority === '3'}
                             />
                             <label htmlFor="priority-3">3</label>
 
@@ -108,7 +119,7 @@ const TicketPage = () => {
                                 name='priority'
                                 onChange={handleChange}
                                 value={4}
-                                checked={formdata.priority === '4'}
+                                checked={formData.priority === '4'}
                             />
                             <label htmlFor="priority-4">4</label>
 
@@ -118,7 +129,7 @@ const TicketPage = () => {
                                 name='priority'
                                 onChange={handleChange}
                                 value={5}
-                                checked={formdata.priority === '5'}
+                                checked={formData.priority === '5'}
                             />
                             <label htmlFor="priority-5">5</label>
                         </div>
@@ -129,7 +140,7 @@ const TicketPage = () => {
                                     type="range"
                                     id="progress"
                                     name="progress"
-                                    value={formdata.progress}
+                                    value={formData.progress}
                                     min="0"
                                     max="100"
                                     onChange={handleChange}
@@ -138,11 +149,11 @@ const TicketPage = () => {
 
 
                                 <label>Status</label>
-                                <select name="status" value={formdata.status} onChange={handleChange}>
-                                    <option selected={formdata.status === 'done'} value='done'>Done</option>
-                                    <option selected={formdata.status === 'working on it'} value='working on it'>Working on it</option>
-                                    <option selected={formdata.status === 'stuck'} value='stuck'>Stuck</option>
-                                    <option selected={formdata.status === 'not started'} value='not started'>Not Started</option>
+                                <select name="status" value={formData.status} onChange={handleChange}>
+                                    <option selected={formData.status === 'done'} value='done'>Done</option>
+                                    <option selected={formData.status === 'working on it'} value='working on it'>Working on it</option>
+                                    <option selected={formData.status === 'stuck'} value='stuck'>Stuck</option>
+                                    <option selected={formData.status === 'not started'} value='not started'>Not Started</option>
                                 </select>
                             </>
                         }
@@ -158,7 +169,7 @@ const TicketPage = () => {
                             name="owner"
                             onChange={handleChange}
                             required
-                            value={formdata.owner}
+                            value={formData.owner}
                         />
 
                         <label htmlFor="avatar">Avatar</label>
@@ -168,11 +179,11 @@ const TicketPage = () => {
                             name="avatar"
                             onChange={handleChange}
                             required
-                            value={formdata.avatar}
+                            value={formData.avatar}
                         />
                         <div className='img-preview'>
-                            {formdata.avatar && (
-                                <img src={formdata.avatar} alt="preview of Avatar image owner" />
+                            {formData.avatar && (
+                                <img src={formData.avatar} alt="preview of Avatar image owner" />
                             )}
                         </div>
                     </section>

@@ -3,3 +3,39 @@
   "clientSecret": "ZFWczB1l3-r.1lmzSUBm,lefZPsq3ZpaWfbopcbgK_QPTHHinJ.1tazf6hdz+qlhn433UIIwhzjQ.Qdsj63b4XfRxrRS10I6SeI_6snOyf3CwNcEuO0UlCskeTwiuYsA"
   "token": "AstraCS:QLcbiUbSRSvNFFXXplmjxcgP:5f3d9e600752fcb48500d014af4501ce9689ba7fff89f2ae0ab560543007225e"
 }
+
+    const tickets = [
+        {
+            category: 'Q1 2022',
+            title: 'NFT Safety 101 Video',
+            owner: 'Ania Kubow',
+            avatar: 'https://i.pravatar.cc/150?img=32',
+            status: 'done',
+            priority: 5,
+            progress: 40,
+            description: 'Make a video of the NFT Safety 101',
+            timestamp: '2022-01-01T07:36:17+0000'
+        },
+        {
+            category: 'Q1 2022',
+            title: 'Build and sell AI Model',
+            owner: 'Ania Kubow',
+            avatar: 'https://i.pravatar.cc/150?img=32',
+            status: 'working on it',
+            priority: 2,
+            progress: 70,
+            description: 'Make a video about the AI Model',
+            timestamp: '2022-02-13T07:36:17+0000'
+        },
+        {
+            category: 'Q2 2022',
+            title: 'Build a bot',
+            owner: 'Ania Kubow',
+            avatar: 'https://i.pravatar.cc/150?img=32',
+            status: 'working on it',
+            priority: 3,
+            progress: 10,
+            description: 'Make a video about Chat bot',
+            timestamp: '2022-03-15T07:36:17+0000'
+        }
+    ]
