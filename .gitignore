@@ -134,3 +134,5 @@ backend-monday-clone/node_modules
 backend-monday-clone/.env
 client-monday-clone/node_modules
 client-monday-clone/.env
+
+package-lock.json
