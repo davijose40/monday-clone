@@ -1,10 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import TicketCard from "../components/TicketCard"
 import axios from "axios"
+import CategoriesContext from "../context"
 
 
 const Dashboard = () => {
-    const [tickets, setTickets] = useState(null);
+    const [tickets, setTickets] = useState(null)
+    const { categories, setCategories } = useContext(CategoriesContext)
 
     useEffect(() => {
            async function getTickets() {
@@ -25,6 +27,10 @@ const Dashboard = () => {
             getTickets()
      }, [])
 
+     useEffect(() => {
+        setCategories([...new Set(tickets?.map(({ category }) => category))])
+      }, [tickets])
+
     const colors = [
         'rgb(255,179,186)',
         'rgb(255,223,186)',
@@ -36,7 +42,6 @@ const Dashboard = () => {
     const uniqueCategories = [
         ...new Set(tickets?.map(({category}) => category))
     ]
-
     return (
         <div className="dashboard">
             <h1>My Projects</h1>
@@ -50,6 +55,7 @@ const Dashboard = () => {
                              id={_index}
                              color={colors[categoryIndex] || colors[0]}
                              ticket={filteredTicket}
+                             key={_index}
                             />
                         ))
                        }

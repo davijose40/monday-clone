@@ -1,19 +1,34 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import CategoriesContext from '../context'
 
-const TicketPage = () => {
+const TicketPage = ({ editMode }) => {
+    const { categories, setCategories } = useContext(CategoriesContext)
+    
     const [formData, setFormData] = useState({
         status: "not started",
         progress: 0,
+        category: categories[0],
         timestamp: new Date().toISOString()
     })
-    const editMode = false
-
+   
+    
     const navigate = useNavigate()
+    const { id } = useParams()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if(editMode) {
+            const response = await axios.put(`http://localhost:8000/tickets/${id}`, {
+                data: formData
+            })
+            const success = response.status === 200
+                if (success) {
+                    navigate('/')
+                }
+        }
         
         if (!editMode) {
             const response = await axios.post('http://localhost:8000/tickets', {
@@ -26,6 +41,15 @@ const TicketPage = () => {
         }
     }
 
+    const fetchData = async () => {
+        const response = await axios.get(`http://localhost:8000/tickets/${id}`)
+        setFormData(response.data.data)
+    }
+
+    useEffect(() => {
+        if(editMode) fetchData()
+    },[])
+
     const handleChange = (e) => {
         const value = e.target.value
         const name = e.target.name
@@ -35,8 +59,6 @@ const TicketPage = () => {
             [name]: value
         }))
     }
-
-    const categories = ['test1', 'test2', 'test3', 'test4', 'test5']
 
     return (
         <div className="ticket">
@@ -65,7 +87,12 @@ const TicketPage = () => {
                         />
 
                         <label htmlFor="categories">Category</label>
-                        <select name="category" id="categories" value={formData.category} onChange={handleChange}>
+                        <select
+                            name="category" 
+                            id="categories" 
+                            value={formData.category || 'New Category'} 
+                            onChange={handleChange}
+                        >
                             {categories?.map((category, _index) => (
                                 <option key={_index} value={category}>{category}</option>
                             ))}
@@ -77,7 +104,6 @@ const TicketPage = () => {
                             id="new-category"
                             name="category"
                             onChange={handleChange}
-                            required
                             value={formData.category}
                         />
 

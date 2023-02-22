@@ -33,6 +33,26 @@ app.get("/tickets", async (req, res) => {
     }
 })
 
+app.get("/tickets/:documentId", async (req, res) => {
+    const id = req.params.documentId
+
+    const options = {
+        method: "GET",
+        headers: {
+            Accepts: "application/json",
+            'X-Cassandra-Token': TOKEN,
+        }
+    }
+
+    try {
+        const response = await axios(`${URL}/${id}`, options)
+        res.status(200).json(response.data)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
+
 app.post("/tickets", async (req, res) => {
     const formData = req.body.formData
     
@@ -50,6 +70,47 @@ app.post("/tickets", async (req, res) => {
 
     try {
         const response = await axios(URL, options)
+        res.status(200).json(response.data)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
+
+app.delete("/tickets/:documentId", async (req, res) => {
+    const id = req.params.documentId
+    const options = {
+        method: "DELETE",
+        headers: {
+            Accepts: "application/json",
+            'X-Cassandra-Token': TOKEN,
+        }
+    }
+
+    try {
+        const response = await axios(`${URL}/${id}`, options)
+        res.status(200).json(response.data)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
+
+app.put("/tickets/:documentId", async (req, res) => {
+    const id = req.params.documentId
+    const data = req.body.data
+
+    const options = {
+        method: "PUT",
+        headers: {
+            Accepts: "application/json",
+            'X-Cassandra-Token': TOKEN,
+        },
+        data
+    }
+
+    try {
+        const response = await axios(`${URL}/${id}`, options)
         res.status(200).json(response.data)
     } catch (error) {
         console.log(error)

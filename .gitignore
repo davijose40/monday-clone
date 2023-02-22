@@ -131,7 +131,7 @@ dist
 
 # project configuration
 backend-monday-clone/node_modules
-backend-monday-clone/.env
+backend-monday-clone/config/**
 client-monday-clone/node_modules
 client-monday-clone/.env
 
